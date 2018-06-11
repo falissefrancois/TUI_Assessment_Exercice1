@@ -1,0 +1,37 @@
+﻿@model AirportCore.ViewModels.ErrorViewModel
+
+@{
+    ViewBag.Title = "Airport Core v0.3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var errorImage = string.Empty;
+    switch(Model.StatusCode)
+    {
+        case 400:
+            errorImage = "error.svg";
+            break;
+        case 403:
+            errorImage = "403error.png";
+            break;
+        case 404:
+            errorImage = "404error.png";
+            break;
+        case 408:
+            errorImage = "error.svg";
+            break;
+        case 500:
+            errorImage = "500error.png";
+            break;
+        default:
+            errorImage = "error.svg";
+            break;
+    }
+}
+
+<div class="jumbotron" style="text-align:center;">
+    <h1>Error @(Model.StatusCode > 0 ? Model.StatusCode.ToString() : string.Empty)</h1>
+    <img src="~/images/@errorImage" />
+    <h3>@Model.GetErrorMessage()</h3>
+    <br />
+    <br />
+    <a asp-controller="@Model.ControllerName" asp-action="@Model.ActionName" class="btn btn-primary btn-lg active" role="button">Home</a>
+</div>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BusinessLogic.Airport>
+
+@{
+    ViewBag.Title = "Airport Core v0.3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="text-align:center;padding-top:50px;">
+    @if (!Model.Any())
+    {
+        <h1>No airports to display</h1>
+    }
+    else
+    {
+        <h1>List of airports</h1>
+        <br>
+        <div class="row justify-content-center">
+            <table class="table col-8">
+                <tr>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Code</th>
+                    <th class="row"><div class="col-4 offset-2">GPS Location</div></th>
+                </tr>
+                @foreach (var airport in Model)
+                {
+                    <tr>
+                        <td>@airport.UserFriendlyName</td>
+                        <td>@airport.CityName</td>
+                        <td>@airport.IATACode</td>
+                        <td class="row">
+                            <div class="col-4" style="text-align: right; display:inline">@airport.Location.Latitude.ToString("G6")</div>
+                            <b>|</b>
+                            <div class="col-4" style="text-align: left; display:inline">@airport.Location.Longitude.ToString("G6")</div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+
+<div style="padding-top:50px; text-align:center;">
+    <a asp-controller="Home" class="btn btn-primary" style="margin:auto; display:table" role="button">Home</a>
+</div>

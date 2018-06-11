@@ -1,0 +1,88 @@
+﻿@model AirportCore.ViewModels.FlightViewModel
+
+@{
+    ViewBag.Title = "Airport Core v0.3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="padding-top:50px; text-align:center; padding-bottom:50px">
+    <h1>Flights</h1>
+    <br />
+    @*<h3>Fuel Consumption</h3>
+    <form asp-controller="Flights" asp-action="UpdateFuelConsumptionAndTakeoffEffort" method="post">
+        <label asp-for="NewFuelConsumptionLitersPerKm"></label>
+        <input asp-for="NewFuelConsumptionLitersPerKm" style="width:50px"/>
+
+        <label asp-for="NewFuelConsumptionTakeoffEffortInLiters"></label>
+        <input asp-for="NewFuelConsumptionTakeoffEffortInLiters" style="width:50px"/>
+        <br />
+        <span style="color: red;padding-bottom: 10px" asp-validation-for="NewFuelConsumptionTakeoffEffortInLiters"></span>
+        <br />
+
+        <button type="submit" class="btn btn-primary">Update fuel consumption</button>
+    </form>*@
+</div>
+
+<div class="container" style="text-align:center">
+    @if (!Model.Flights.Any())
+    {
+        <h4>No flights to display</h4>
+    }
+    else
+    {
+        <h3>List of flights</h3>
+        <br />
+        <div class="row justify-content-center">
+            <table class="table col-8">
+                <tr>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Fuel Consumption</th>
+                </tr>
+                @foreach (var flight in Model.Flights)
+                {
+                    <tr>
+                        <td>@flight.Departure.UserFriendlyName</td>
+                        <td>@flight.Destination.UserFriendlyName</td>
+                        <td>@flight.FuelConsumptionDetails</td>
+                        <td><a asp-controller="Flights" asp-action="EditFlight" asp-route-flightId="@flight.Id" class="btn btn-primary" role="button">Edit</a></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+
+@if (Model.AvailableAirports.Count() >= 2)
+{
+    <div style="text-align:center">
+        <h3>Add a new flight</h3>
+        <form asp-controller="Flights" asp-action="AddNewFlight" method="post">
+            <label asp-for="NewFlightDepartureAirport"></label>
+            <select asp-for="NewFlightDepartureAirport" asp-items="Model.AvailableAirports"></select>
+            <br />
+            <span asp-validation-for="NewFlightDepartureAirport"></span>
+
+            <label asp-for="NewFlightArrivalAirport"></label>
+            <select asp-for="NewFlightArrivalAirport" asp-items="Model.AvailableAirports"></select>
+            <br />
+            <span style="color: red" asp-validation-for="NewFlightArrivalAirport"></span>
+            <br />
+
+            <label asp-for="NewFuelConsumptionLitersPerKm"></label>
+            <input asp-for="NewFuelConsumptionLitersPerKm" style="width:50px" />
+            <br />
+            <label asp-for="NewFuelConsumptionTakeoffEffortInLiters"></label>
+            <input asp-for="NewFuelConsumptionTakeoffEffortInLiters" style="width:50px" />
+            <br />
+            <span style="color: red;padding-bottom: 10px" asp-validation-for="NewFuelConsumptionTakeoffEffortInLiters"></span>
+            <br />
+
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+}
+
+<div style="padding-top:50px; text-align:center;">
+    <a asp-controller="Home" class="btn btn-primary" style="margin:auto; display:table" role="button">Home</a>
+</div>
